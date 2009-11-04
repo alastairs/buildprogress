@@ -1,0 +1,11 @@
+DS_STORE
+bin
+obj
+*.user
+*.suo
+*.log
+*.bak
+Thumbs.db
+Debug/
+Release/
+*DXCore.Solution/
