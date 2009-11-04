@@ -60,16 +60,16 @@ namespace BuildProgress {
             }
         }
         
-        internal static System.Drawing.Icon accept {
+        internal static System.Drawing.Icon cross {
             get {
-                object obj = ResourceManager.GetObject("accept", resourceCulture);
+                object obj = ResourceManager.GetObject("cross", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
             }
         }
         
-        internal static System.Drawing.Icon cross {
+        internal static System.Drawing.Icon tick {
             get {
-                object obj = ResourceManager.GetObject("cross", resourceCulture);
+                object obj = ResourceManager.GetObject("tick", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
             }
         }

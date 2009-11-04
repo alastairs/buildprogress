@@ -39,10 +39,10 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="Microsoft.WindowsAPICodePack">
-      <HintPath>..\..\libs\WindowsAPICodePack\WindowsAPICodePack\Shell\bin\Debug\Microsoft.WindowsAPICodePack.dll</HintPath>
+      <HintPath>libs\WindowsAPICodePack\Microsoft.WindowsAPICodePack.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAPICodePack.Shell">
-      <HintPath>..\..\libs\WindowsAPICodePack\WindowsAPICodePack\Shell\bin\Debug\Microsoft.WindowsAPICodePack.Shell.dll</HintPath>
+      <HintPath>libs\WindowsAPICodePack\Microsoft.WindowsAPICodePack.Shell.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -125,18 +125,20 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="D:\Visual Studio Projects\buildprogress\BuildProgress - For Testing.AddIn">
+    <Content Include="..\BuildProgress - For Testing.AddIn">
       <Link>BuildProgress - For Testing.AddIn</Link>
     </Content>
     <Content Include="BuildProgress.AddIn" />
+    <None Include="resources\tick.ico" />
     <None Include="resources\cross.ico" />
-    <None Include="resources\accept.ico" />
     <EmbeddedResource Include="Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="libs\" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSHARP.Targets" />
   <PropertyGroup>
     <PreBuildEvent>

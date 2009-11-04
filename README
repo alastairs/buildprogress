@@ -1,0 +1,56 @@
++---------------------------------------+
++ VS 2010 Taskbar Build Progress Add-In +
++---------------------------------------+
+
+1. CHANGELOG
+------------
+
+v0.2
+----
+
+Overlay icons added.  A tick is displayed if the build was successful, a cross
+if there was a failure.
+
+v0.1
+----
+
+Initial version.  Build progress is displayed in the Windows 7 task bar icon.  
+If one or more of the projects contains an error, the progress bar will turn 
+red.
+
+
+2. BUILD INSTRUCTIONS
+---------------------
+
+  1. Check out the source from GitHub, or use the download link on the 
+     repository page.
+  2. Download the Windows API Codepack from 
+     http://code.msdn.microsoft.com/WindowsAPICodePack and build the solution.
+     Copy the Microsoft.WindowsAPICodePack.dll and the 
+     Microsoft.WindowsAPICodePack.Shell.dll into the libs\WindowsAPICodePack 
+     directory in the BuildProgress solution directory.  
+  3. Build the BuildProgress solution.  Drop the following files into
+     My Documents\Visual Studio 2010\AddIns:
+	   * BuildProgress.AddIn
+	   * BuildProgress.dll
+	   * Microsoft.WindowsAPICodePack.dll
+	   * Microsoft.WindowsAPICodePack.Shell.dll     
+  4. If you want to debug the Add-In, you will need to complete the following
+     steps.
+       a. In "BuildProgress - For Testing.AddIn", update the Extensibility/
+          Addin/Assembly element to point to built binary in your build progress
+          add-in development environment
+       b. Place the "BuildProgress - For Testing.AddIn" file in 
+	      My Documents\Visual Studio 2010\AddIns
+	   c. Restart Visual Studio 2010.
+     
+
+3. CREDITS
+----------
+
+The overlay icons are taken from the free Silk icon set from famfamfam.com.
+(http://www.famfamfam.com/lab/icons/silk/)
+
+The taskbar integration is provided by the Windows API Codepack
+(http://code.msdn.microsoft.com/WindowsAPICodePack).
+
