@@ -5,6 +5,12 @@
 1. CHANGELOG
 ------------
 
+v0.21
+-----
+
+Bug fix: Failed build icon overlay is not replaced with the successful build 
+icon overlay when a successful build follows a failed build.
+
 v0.2
 ----
 
