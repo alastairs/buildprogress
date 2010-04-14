@@ -8,8 +8,13 @@
 v0.3
 ----
 
-Bug fix: Build progress would often not display, due to the BuildEvents object
-being garbage-collected after the event handlers had been assigned.  
+Bug fix release.
+
+Bug fix: #1: README inaccurate? 
+Fixed by bdukes: 130bb8ae88f190c85c12cc58411b993d2119ed8b
+
+Bug fix: #2: unable to see progress indicator. 
+Fixed by Kha: 097d15127dfdafd5a2a0dae5e1fdcafbd57d9a59
 
 v0.21
 -----
