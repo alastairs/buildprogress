@@ -36,7 +36,6 @@ namespace BuildProgress
 		private DTE2 _applicationObject;
 		private AddIn _addInInstance;
 		private BuildEvents events;
-        private int _projectProgressPercentagePoints;
         private int _nextProgressValue;
         private int _maxProgressValue;
 
@@ -49,16 +48,9 @@ namespace BuildProgress
             TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.NoProgress);
             _buildErrorDetected = false;
             
-            // Now make some calculations as to what "progress" is.  The progress is approximately a percentage: 
-            //(_numberOfProjects * _projectProgressPercentagePoints may be greater than 100, e.g., if
-            // _numberOfProjects is 3 or some other non-factor of 100).  
-            var _numberOfProjects = _applicationObject.Solution.Projects.Count;
-
-            _projectProgressPercentagePoints = (int)Math.Ceiling((decimal)100 / _numberOfProjects);
-            
             // Set the initial progress values and kick-start the progress updating
             _nextProgressValue = 0;
-            _maxProgressValue = _projectProgressPercentagePoints * _numberOfProjects;
+            _maxProgressValue = _applicationObject.Solution.Projects.Count;
             UpdateProgressValue(false);
         }
 
@@ -83,7 +75,7 @@ namespace BuildProgress
                 TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Error);
             }
 
-            _nextProgressValue += _projectProgressPercentagePoints;
+            _nextProgressValue++;
         }
 
         private void OnBuildDone(vsBuildScope scope, vsBuildAction action)
