@@ -5,6 +5,12 @@
 1. CHANGELOG
 ------------
 
+v0.3
+----
+
+Bug fix: Build progress would often not display, due to the BuildEvents object
+being garbage-collected after the event handlers had been assigned.  
+
 v0.21
 -----
 
@@ -31,12 +37,14 @@ red.
 Download the latest version of the build progress zip file from 
 http://www.github.com/alastairs/buildprogress/downloads.  In the zip file is a
 folder called BuildProgress.  Simply copy the contents of this folder to 
-My Documents\Visual Studio 2010\AddIns.  
+My Documents\Visual Studio 2010\AddIns.  You may need to create the AddIns 
+directory if it does not already exist at the specified location.  
 
-Be sure to unblock the binary files on Windows Vista and 7 by right-clicking the
-file and choosing Properties, then clicking the Unblock button at the bottom of
-the General tab.  Screenshots and an explanation of why this is required are 
-available from http://www.hanselman.com/blog/FavIconsInternetZonesAndProjectsFromATrustworthySource.aspx
+In many cases, you will need to "unblock" the binary files on Windows Vista and 
+Windows 7 by right-clicking the file and choosing Properties, then clicking the 
+Unblock button at the bottom of the General tab.  Screenshots and an explanation
+of why this is required are available from 
+http://www.hanselman.com/blog/FavIconsInternetZonesAndProjectsFromATrustworthySource.aspx
 
 
 2.1 Installation to a UNC Share
