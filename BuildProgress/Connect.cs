@@ -27,13 +27,15 @@ namespace BuildProgress
 			_applicationObject = (DTE2)application;
 			_addInInstance = (AddIn)addInInst;
 
-            _applicationObject.Events.BuildEvents.OnBuildBegin += OnBuildBegin;
-            _applicationObject.Events.BuildEvents.OnBuildProjConfigDone += OnBuildProjConfigDone;
-            _applicationObject.Events.BuildEvents.OnBuildDone += OnBuildDone;
+            events = _applicationObject.Events.BuildEvents;
+            events.OnBuildBegin += OnBuildBegin;
+            events.OnBuildProjConfigDone += OnBuildProjConfigDone;
+            events.OnBuildDone += OnBuildDone;
 		}
 
 		private DTE2 _applicationObject;
 		private AddIn _addInInstance;
+		private BuildEvents events;
         private int _projectProgressPercentagePoints;
         private int _nextProgressValue;
         private int _maxProgressValue;
