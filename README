@@ -25,8 +25,42 @@ If one or more of the projects contains an error, the progress bar will turn
 red.
 
 
-2. BUILD INSTRUCTIONS
+2. INSTALLATION INSTRUCTIONS
+----------------------------
+
+Download the latest version of the build progress zip file from 
+http://www.github.com/alastairs/buildprogress/downloads.  In the zip file is a
+folder called BuildProgress.  Simply copy this folder to 
+My Documents\Visual Studio 2010\AddIns.  
+
+Be sure to unblock the binary files on Windows Vista and 7 by right-clicking the
+file and choosing Properties, then clicking the Unblock button at the bottom of
+the General tab.  Screenshots and an explanation of why this is required are 
+available from http://www.hanselman.com/blog/FavIconsInternetZonesAndProjectsFromATrustworthySource.aspx
+
+
+2.1 Installation to a UNC Share
+-------------------------------
+
+If your My Documents folder is mapped to a network share (e.g., in some 
+corporate environments), you will need to complete a one-time extra step to 
+relax the security restrictions on the AddIns directory.  Run the Visual Studio
+2010 Command Prompt as an Administrator and enter the following command, 
+substituting servername, sharename and username for appropriate values for your
+environment.  Note that username may need to be a folder hierarchy fragment, and
+not just a username.
+
+ > caspol -m -ag LocalIntranet_Zone -url 
+   "\\servername\sharename\username\Visual Studio 2010\Addins\*" FullTrust -n 
+   "Visual Studio 2010 Add-ins" -d "Visual Studio 2010 Add-ins"
+
+
+
+3. BUILD INSTRUCTIONS
 ---------------------
+
+If you would prefer to build the add-in yourself, you'll need to follow these
+steps.
 
   1. Check out the source from GitHub, or use the download link on the 
      repository page.
@@ -51,7 +85,7 @@ red.
 	   c. Restart Visual Studio 2010.
      
 
-3. CREDITS
+4. CREDITS
 ----------
 
 The overlay icons are taken from the free Silk icon set from famfamfam.com.
