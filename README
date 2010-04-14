@@ -30,7 +30,7 @@ red.
 
 Download the latest version of the build progress zip file from 
 http://www.github.com/alastairs/buildprogress/downloads.  In the zip file is a
-folder called BuildProgress.  Simply copy this folder to 
+folder called BuildProgress.  Simply copy the contents of this folder to 
 My Documents\Visual Studio 2010\AddIns.  
 
 Be sure to unblock the binary files on Windows Vista and 7 by right-clicking the
