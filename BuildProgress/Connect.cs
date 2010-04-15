@@ -7,77 +7,83 @@ using System.Drawing;
 
 namespace BuildProgress
 {
-	/// <summary>The object for implementing an Add-in.</summary>
-	/// <seealso class='IDTExtensibility2' />
+	/// <summary>
+    /// The object for implementing an Add-in.
+    /// </summary>
+	/// <seealso class="IDTExtensibility2" />
 	public class Connect : IDTExtensibility2
 	{
-		/// <summary>Implements the constructor for the Add-in object. Place your initialization code within this method.</summary>
-		public Connect()
-		{
-            
-		}
-
-		/// <summary>Implements the OnConnection method of the IDTExtensibility2 interface. Receives notification that the Add-in is being loaded.</summary>
-		/// <param term='application'>Root object of the host application.</param>
-		/// <param term='connectMode'>Describes how the Add-in is being loaded.</param>
-		/// <param term='addInInst'>Object representing this Add-in.</param>
-		/// <seealso class='IDTExtensibility2' />
-		public void OnConnection(object application, ext_ConnectMode connectMode, object addInInst, ref Array custom)
-		{
-			_applicationObject = (DTE2)application;
-			_addInInstance = (AddIn)addInInst;
-
-            events = _applicationObject.Events.BuildEvents;
-            events.OnBuildBegin += OnBuildBegin;
-            events.OnBuildProjConfigDone += OnBuildProjConfigDone;
-            events.OnBuildDone += OnBuildDone;
-		}
-
-		private DTE2 _applicationObject;
-		private AddIn _addInInstance;
-		private BuildEvents events;
-        private int _nextProgressValue;
-        private int _maxProgressValue;
+        private DTE2 _applicationObject;
+        private BuildEvents _buildEvents;
+        private int _numberOfProjectsBuilt;
+        private int _numberOfProjects;
 
         private bool _buildErrorDetected;
 
-        private void OnBuildBegin(vsBuildScope scope, vsBuildAction action)
+        #region Events
+
+        /// <summary>
+        /// Implements the OnConnection method of the IDTExtensibility2 
+        /// interface. Receives notification that the Add-in is being loaded.
+        /// </summary>
+		/// <param name="application">Root object of the host application.</param>
+        /// <param name="connectMode">Describes how the Add-in is being loaded.</param>
+        /// <param name="addInInstance">Object representing this Add-in.</param>
+        /// <param name="custom">Array of custom parameters</param>
+		/// <seealso class="IDTExtensibility2" />
+		public void OnConnection(object application, ext_ConnectMode connectMode, object addInInstance, ref Array custom)
+		{
+			_applicationObject = (DTE2)application;
+
+            _buildEvents = _applicationObject.Events.BuildEvents;
+            _buildEvents.OnBuildBegin += OnBuildBegin;
+            _buildEvents.OnBuildProjConfigDone += OnBuildProjConfigDone;
+            _buildEvents.OnBuildDone += OnBuildDone;
+		}
+
+        /// <summary>
+        /// Implements a handler for the OnBuildBegin build event.  Resets the 
+        /// task bar to 0 (and associated build state metadata stored by the 
+        /// add-in).  
+        /// </summary>
+        /// <param name="scope">The scope of the build.</param>
+        /// <param name="action">The build action (e.g., Clean).</param>
+		private void OnBuildBegin(vsBuildScope scope, vsBuildAction action)
         {
-            // Reset any previous build state to ensure we start from scratch
-            TaskbarManager.Instance.SetOverlayIcon(null, string.Empty);
-            TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.NoProgress);
-            _buildErrorDetected = false;
+            InitialiseTaskBar();
             
-            // Set the initial progress values and kick-start the progress updating
-            _nextProgressValue = 0;
-            _maxProgressValue = _applicationObject.Solution.Projects.Count;
-            UpdateProgressValue(false);
+            InitialiseProgressValues();
+
+            UpdateProgressValueAndState(false);
         }
 
-        private void OnBuildProjConfigDone(string Project, string ProjectConfig, string Platform, string SolutionConfig, bool Success)
+        /// <summary>
+        /// Implements a handler for the OnBuildProjConfigDone build event.  
+        /// Increments the task bar progress indicator, and turns it red on a 
+        /// failed project build.
+        /// </summary>
+        /// <param name="project">The name of the project that has finished 
+        /// building.</param>
+        /// <param name="projectConfig">The configuration (debug, release, etc.)
+        /// of the project that has finished building.</param>
+        /// <param name="platform">The processor architecture (AnyCPU, etc.) of
+        /// the project that has finished building.</param>
+        /// <param name="solutionConfig">The solution configuration (as defined
+        /// in the Configuration Manager) of the project that has finished 
+        /// building.</param>
+        /// <param name="success">A flag indicating whether or not the project
+        /// built successfully.</param>
+        private void OnBuildProjConfigDone(string project, string projectConfig, string platform, string solutionConfig, bool success)
         {
-            UpdateProgressValue(!Success);
+            UpdateProgressValueAndState(!success);
         }
 
-        private void UpdateProgressValue(bool errorThrown)
-        {
-            if (_nextProgressValue < 0)
-                _nextProgressValue = 0;
-
-            if (_nextProgressValue > _maxProgressValue)
-                _nextProgressValue = _maxProgressValue;
-
-            TaskbarManager.Instance.SetProgressValue(_nextProgressValue, _maxProgressValue);
-                        
-            if (errorThrown)
-            {
-                _buildErrorDetected = true;
-                TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Error);
-            }
-
-            _nextProgressValue++;
-        }
-
+        /// <summary>
+        /// Sets the appropriate overlay icon to display whether the build was a
+        /// success or failure. 
+        /// </summary>
+        /// <param name="scope">The scope of the build.</param>
+        /// <param name="action">The build action (e.g., Clean).</param>
         private void OnBuildDone(vsBuildScope scope, vsBuildAction action)
         {
             if (_buildErrorDetected)
@@ -94,29 +100,75 @@ namespace BuildProgress
             TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.NoProgress);
         }
 
-        #region Unimplemented methods of IDTExtensibility2
+        #endregion
+
+        #region Helper Methods
 
         /// <summary>
-        /// Not implemented
+        /// Resets any existing build state to give a fresh start.
         /// </summary>
+        private void InitialiseProgressValues()
+        {
+            _buildErrorDetected = false;
+            _numberOfProjectsBuilt = 0;
+            _numberOfProjects = _applicationObject.Solution.SolutionBuild.BuildDependencies.Count;
+        }
+
+        /// <summary>
+        /// Reset the task bar progress indicator to 0 (no progress) and remove 
+        /// any overlay icon displayed.
+        /// </summary>
+        private static void InitialiseTaskBar()
+        {
+            TaskbarManager.Instance.SetOverlayIcon(null, string.Empty);
+            TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.NoProgress);
+        }
+
+        /// <summary>
+        /// Increments the taskbar progress indicator by one step, and changes
+        /// the taskbar state to "error" (i.e., red) if a build error has been
+        /// reported.
+        /// </summary>
+        /// <param name="errorThrown"></param>
+        private void UpdateProgressValueAndState(bool errorThrown)
+        {
+            if (_numberOfProjectsBuilt < 0)
+                _numberOfProjectsBuilt = 0;
+
+            if (_numberOfProjectsBuilt > _numberOfProjects)
+                _numberOfProjectsBuilt = _numberOfProjects;
+
+            // Maximum value is N-1, as we count the projects from 0.
+            TaskbarManager.Instance.SetProgressValue(_numberOfProjectsBuilt, _numberOfProjects - 1);
+
+            if (errorThrown)
+            {
+                _buildErrorDetected = true;
+                TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Error);
+            }
+
+            _numberOfProjectsBuilt++;
+        }
+
+        #endregion
+
+        #region Unimplemented methods of IDTExtensibility2
+
+        /// <summary />
         /// <param name="custom"></param>
         public void OnAddInsUpdate(ref Array custom)
         {
             
         }
 
-        /// <summary>
-        /// Not implemented
-        /// </summary>
+        /// <summary />
         /// <param name="custom"></param>
         public void OnBeginShutdown(ref Array custom)
         {
             
         }
 
-        /// <summary>
-        /// Not implemented
-        /// </summary>
+        /// <summary />
         /// <param name="RemoveMode"></param>
         /// <param name="custom"></param>
         public void OnDisconnection(ext_DisconnectMode RemoveMode, ref Array custom)
@@ -124,9 +176,7 @@ namespace BuildProgress
             
         }
         
-        /// <summary>
-        /// Not implemented.
-        /// </summary>
+        /// <summary />
         /// <param name="custom"></param>
         public void OnStartupComplete(ref Array custom)
         {
