@@ -5,6 +5,12 @@
 1. CHANGELOG
 ------------
 
+v1.0
+----
+
+First major release.  Introduces support for Visual Studio 2008, and merges the 
+Windows API Code Pack binaries into the source tree for the add-in.
+
 v0.3
 ----
 
@@ -40,10 +46,16 @@ red.
 ----------------------------
 
 Download the latest version of the build progress zip file from 
-http://www.github.com/alastairs/buildprogress/downloads.  In the zip file is a
-folder called BuildProgress.  Simply copy the contents of this folder to 
-My Documents\Visual Studio 2010\AddIns.  You may need to create the AddIns 
-directory if it does not already exist at the specified location.  
+http://www.github.com/alastairs/buildprogress/downloads.  Inside the 
+BuildProgress folder is a pair of folders for VS2008 and VS2010.  Choose the 
+folder appropriate to your installation of Visual studio and copy 
+the contents of that folder to:
+
+  * My Documents\Visual Studio 2010\AddIns      or
+  * My Documents\Visual Studio 2008\AddIns
+  
+depending on your installed version of Visual Studio.  You may need to create 
+the AddIns directory if it does not already exist at the specified location.  
 
 In many cases, you will need to "unblock" the binary files on Windows Vista and 
 Windows 7 by right-clicking the file and choosing Properties, then clicking the 
@@ -77,13 +89,12 @@ steps.
 
   1. Check out the source from GitHub, or use the download link on the 
      repository page.
-  2. Download the Windows API Codepack from 
-     http://code.msdn.microsoft.com/WindowsAPICodePack and build the solution.
-     Copy the Microsoft.WindowsAPICodePack.dll and the 
-     Microsoft.WindowsAPICodePack.Shell.dll into the libs\WindowsAPICodePack 
-     directory in the BuildProgress solution directory.  
-  3. Build the BuildProgress solution.  Drop the following files into
-     My Documents\Visual Studio 2010\AddIns:
+  2. Open the solution file appropriate to your installation of Visual Studio:
+       * BuildProgress.sln for Visual Studio 2010
+       * BuildProgress2008.sln for Visual Studio 2008
+  3. Build the solution.  Drop the following files into
+     My Documents\Visual Studio 2010\AddIns (or My Documents\Visual Studio 2008\
+     AddIns if you are using VS2008):
 	   * BuildProgress.AddIn
 	   * BuildProgress.dll
 	   * Microsoft.WindowsAPICodePack.dll
@@ -94,8 +105,9 @@ steps.
           Addin/Assembly element to point to built binary in your build progress
           add-in development environment
        b. Place the "BuildProgress - For Testing.AddIn" file in 
-	      My Documents\Visual Studio 2010\AddIns
-	   c. Restart Visual Studio 2010.
+	      My Documents\Visual Studio 2010\AddIns (or My Documents\Visual Studio
+	      2008\AddIns if you are using VS2008)
+	   c. Restart Visual Studio.
      
 
 4. CREDITS
