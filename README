@@ -1,9 +1,14 @@
 +---------------------------------------+
-+ VS 2010 Taskbar Build Progress Add-In +
++ VS 2012 Taskbar Build Progress Add-In +
 +---------------------------------------+
 
 1. CHANGELOG
 ------------
+
+v1.1
+----
+
+Adds support for Visual Studio 2012.
 
 v1.0
 ----
@@ -47,10 +52,11 @@ red.
 
 Download the latest version of the build progress zip file from 
 http://www.github.com/alastairs/buildprogress/downloads.  Inside the 
-BuildProgress folder is a pair of folders for VS2008 and VS2010.  Choose the 
-folder appropriate to your installation of Visual studio and copy 
-the contents of that folder to:
+BuildProgress folder is a set of folders for VS2008, VS2010 and VS2012.  Choose 
+the folder appropriate to your installation of Visual studio and copy the 
+contents of that folder to:
 
+  * My Documents\Visual Studio 2012\AddIns      or
   * My Documents\Visual Studio 2010\AddIns      or
   * My Documents\Visual Studio 2008\AddIns
   
@@ -90,11 +96,11 @@ steps.
   1. Check out the source from GitHub, or use the download link on the 
      repository page.
   2. Open the solution file appropriate to your installation of Visual Studio:
-       * BuildProgress.sln for Visual Studio 2010
+       * BuildProgress.sln for Visual Studio 2012 or Visual Studio 2010
        * BuildProgress2008.sln for Visual Studio 2008
   3. Build the solution.  Drop the following files into
-     My Documents\Visual Studio 2010\AddIns (or My Documents\Visual Studio 2008\
-     AddIns if you are using VS2008):
+     My Documents\Visual Studio [Version]\AddIns, where [Version] should be 
+	 replaced with your Visual Studio version (2008, 2010, 2012):
 	   * BuildProgress.AddIn
 	   * BuildProgress.dll
 	   * Microsoft.WindowsAPICodePack.dll
@@ -105,8 +111,8 @@ steps.
           Addin/Assembly element to point to built binary in your build progress
           add-in development environment
        b. Place the "BuildProgress - For Testing.AddIn" file in 
-	      My Documents\Visual Studio 2010\AddIns (or My Documents\Visual Studio
-	      2008\AddIns if you are using VS2008)
+	      My Documents\Visual Studio [Version]\AddIns, where [Version] should be
+		  replaced with your Visual Studio version (2008, 2010, 2012).
 	   c. Restart Visual Studio.
      
 
